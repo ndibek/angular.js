@@ -913,13 +913,17 @@ forEach({
 
     eventData = eventData || [];
 
-    var event = [{
+    var event = {
       preventDefault: noop,
       stopPropagation: noop
-    }];
+    };
+
+    for(var propertyName in eventData) {
+      event[propertyName] = eventData[propertyName]
+    }  
 
     forEach(eventFns, function(fn) {
-      fn.apply(element, event.concat(eventData));
+      fn.apply(element, [event]);
     });
   }
 }, function(fn, name){
